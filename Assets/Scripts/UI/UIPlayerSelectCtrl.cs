@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Unity.Cinemachine;
+using UnityEngine.UI;
 
 public class UIPlayerSelectCtrl : MonoBehaviour
 {
@@ -18,30 +20,59 @@ public class UIPlayerSelectCtrl : MonoBehaviour
         } 
         set
         {//如果小於0特殊處理成尾號，否則取餘數
-            _index = value < 0 ? vCams.Length -1 : value % vCams.Length; 
+            _index = value < 0 ? charOptions.Length -1 : value % charOptions.Length; 
         } 
     }
     /// <summary>
-    /// [陣列]虛擬鏡頭設定集合物件
+    /// 角色選項資料結構
     /// </summary>
-    public CinemachineCamera[] vCams;
+    [System.Serializable]
+    public struct CharOption
+    {
+        /// <summary>
+        /// 虛擬鏡頭設定
+        /// </summary>
+        public CinemachineCamera vCam;
+        /// <summary>
+        /// UI狀態提示(是否選中)
+        /// </summary>
+        public Toggle toggle;
+        /// <summary>
+        /// 角色選項開關切換
+        /// </summary>
+        /// <param name="B">true 開 / flase 關</param>
+        public void Switch(bool B)
+        {
+            vCam.Priority.Enabled = B;
+            toggle.isOn = B;
+        }
+    }
+    /// <summary>
+    /// [陣列]角色選項設定集合物件
+    /// </summary>
+    public CharOption[] charOptions;
 
+    private void Start()
+    {
+        //選中預設第一位
+        charOptions[index].Switch(true);
+    }
     /// <summary>
     /// 下一個角色(鏡頭逆轉)
     /// </summary>
     public void NextPlayer()
     {
-        vCams[index].Priority.Enabled = false;
+        charOptions[index].Switch(false);
         index++;//索引增加
-        vCams[index].Priority.Enabled = true;
+        charOptions[index].Switch(true);
     }
     /// <summary>
     /// 上一個角色(鏡頭順轉)
     /// </summary>
     public void PrevPlayer() 
     {
-        vCams[index].Priority.Enabled = false;
-        index--;//索引減少
-        vCams[index].Priority.Enabled = true;
+        charOptions[index].Switch(false);
+        index--;//索引增加
+        charOptions[index].Switch(true);
     }
 }
