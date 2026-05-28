@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
+//預設必需的元件
 [RequireComponent(typeof(CanvasGroup))]
 public class UIPanelCtrl : MonoBehaviour
 {
     #region 基礎元件
-    
     /// <summary>
     /// CanvasGroup元件本體(盡量不直接控制)
     /// </summary>
@@ -20,8 +20,7 @@ public class UIPanelCtrl : MonoBehaviour
         }
     }
     */
-    private CanvasGroup canvasGroup => _canvasGroup ??= GetComponent<CanvasGroup>();
-    
+    private CanvasGroup canvasGroup => _canvasGroup ??= GetComponent<CanvasGroup>();    
     #endregion 基礎元件
 
     [Tooltip("UI面板預設是否開啟")]
@@ -52,6 +51,7 @@ public class UIPanelCtrl : MonoBehaviour
         canvasGroup.alpha = B ? 1 : 0;
         canvasGroup.blocksRaycasts = B;
     }
+
     #region ContextMenu測試功能
     [ContextMenu("面板打開")]
     public void PanelOn()

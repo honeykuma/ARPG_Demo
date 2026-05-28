@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9afd3896a6b6beb429be0be6b0926b2c, type: 3}
+  m_Name: PlayerDB
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDB
+  datas:
+  - name: "\u5F13\u7BAD\u624B"
+    desc: "\u6230\u5834\u4E0A\u7684\u5E7D\u9748\u6BBA\u624B\uFF0C\u64C5\u9577\u9060\u8DDD\u96E2\u7CBE\u6E96\u6253\u64CA\u3002\u654F\u6377\u7684\u8EAB\u624B\u914D\u4E0A\u81F4\u547D\u7684\u7BAD\u77E2\uFF0C\u5728\u6575\u4EBA\u63A5\u8FD1\u524D\u4FBF\u80FD\u53D6\u5176\u6027\u547D\u3002"
+    icon: {fileID: 21300000, guid: 441984207ebb5ac4fa819dcd76e64d09, type: 3}
+    playerCtrl: {fileID: 4293121324618004363, guid: e164deb40271e1f47a67f6fcfc988cf1, type: 3}
+  - name: "\u72C2\u6230\u58EB"
+    desc: "\u6368\u68C4\u9632\u79A6\u7684\u8FD1\u6230\u6BBA\u622E\u8005\uFF0C\u8D8A\u6230\u8D8A\u52C7\u3002\u5728\u8840\u8207\u706B\u4E2D\u91CB\u653E\u6975\u81F4\u7834\u58DE\u529B\uFF0C\u4EE5\u760B\u72C2\u7684\u6012\u543C\u78BE\u788E\u4E00\u5207\u963B\u7919\u3002"
+    icon: {fileID: 21300000, guid: 0d93729480a96a845b150e4044064768, type: 3}
+    playerCtrl: {fileID: 8080557488905197689, guid: d0dd5bd0f7a234e4fbeff004b204c566, type: 3}
+  - name: "\u9A0E\u58EB"
+    desc: "\u5805\u4E0D\u53EF\u6467\u7684\u6230\u5834\u5B88\u8B77\u8005\u3002\u8EAB\u62AB\u91CD\u7532\uFF0C\u624B\u6301\u76FE\u724C\uFF0C\u5728\u6700\u524D\u7DDA\u62B5\u79A6\u5F37\u6575\uFF0C\u4EE5\u4FE1\u4EF0\u8207\u69AE\u8000\u5B88\u8B77\u968A\u53CB\u7684\u9435\u58C1\u3002"
+    icon: {fileID: 21300000, guid: ffc3492dc026d3a49af89792c15b6389, type: 3}
+    playerCtrl: {fileID: 7174742880324805000, guid: 1c9b2b845a6128a499143f77a95c43f8, type: 3}
