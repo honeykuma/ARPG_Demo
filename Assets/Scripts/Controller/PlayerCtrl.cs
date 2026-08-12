@@ -177,6 +177,7 @@ public class PlayerCtrl : MonoBehaviour
     #region 生命週期
     private void OnEnable()
     {
+        GameManager.SetCurrentPlayer(this);
         InputsCtrl.Play.Enable();
         //操作行為事件訂閱
         InputsCtrl.Play.Jump.performed += Jump;
@@ -188,6 +189,7 @@ public class PlayerCtrl : MonoBehaviour
 
     private void OnDisable()
     {
+        GameManager.SetCurrentPlayer(null);
         InputsCtrl.Play.Disable();
         //操作行為事件訂閱取消
         InputsCtrl.Play.Jump.performed -= Jump;

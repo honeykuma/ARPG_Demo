@@ -1,9 +1,5 @@
 ﻿using UnityEngine;
 
-
-
-
-
 [RequireComponent (typeof(Animator))]
 public class AnimaCtrl : MonoBehaviour
 {
