@@ -21,16 +21,22 @@ public class CameraCtrl : MonoBehaviour
     /// 角色定位+偏移修正後的最終位置
     /// </summary>
     private Vector3 GPS => GameManager.playerGPS + offset;
+
     /// <summary>
     /// 是否取得跟隨目標對象
     /// </summary>
     private bool GotTarget => GPS != Vector3.zero;
     #endregion 公用參數
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    #region 生命週期    
+    private void OnEnable()
     {
-        
+        GameManager.SetCurrentCamera(this);
+    }
+
+    private void OnDisable()
+    {
+        GameManager.SetCurrentCamera(null);
     }
 
     // Update is called once per frame
@@ -38,6 +44,7 @@ public class CameraCtrl : MonoBehaviour
     {
         Fallow();
     }
+    #endregion 生命週期
 
     private void Fallow()
     {
