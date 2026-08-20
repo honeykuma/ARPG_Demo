@@ -19,7 +19,6 @@ public class SpawnCtrl : MonoBehaviour
     private PlayerCtrl CurrentPlayer => _playerDB.GetPlayerData(PlayerIndex).playerCtrl;
     #endregion 公用參數
 
-
     /// <summary>
     /// 誕生控制初始
     /// </summary>
