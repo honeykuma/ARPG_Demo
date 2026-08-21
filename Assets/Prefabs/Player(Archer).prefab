@@ -139,6 +139,7 @@ MonoBehaviour:
   _airJumpCountMax: 1
   _dashSpeed: 16
   _skillPrefabs:
+  - {fileID: 8978415973575770488, guid: e4cf5b64c28c0914b884e80062ed1f56, type: 3}
   - {fileID: 8978415973575770488, guid: a6d11afe803ea28478299a6ec3fae3b6, type: 3}
 --- !u!1001 &4433191965717764146
 PrefabInstance:
