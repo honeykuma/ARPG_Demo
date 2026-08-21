@@ -13,8 +13,8 @@ public class PlayerCtrl : BaseCtrl
     private int _airJumpCountMax = 1;
     private int _airJumpCount;
     [SerializeField]
-    private float _dashSpeed = 8f;
-    private float _dashDuration = 0.2f;
+    private float _dashSpeed = 16f;
+    private float _dashDuration = 0.15f;
     #endregion 基本參數
 
     #region 公用參數
@@ -68,7 +68,14 @@ public class PlayerCtrl : BaseCtrl
     #endregion 生命週期
 
     #region 角色物理控制
-    //_airJumpCount = _airJumpCountMax;
+    /// <summary>
+    /// 增強角色跳躍功能
+    /// </summary>
+    protected override void Gravity()
+    {
+        base.Gravity();
+        if (IsGrounded) _airJumpCount = _airJumpCountMax;
+    }
     #endregion 角色物理控制
 
     #region 跳躍功能    
@@ -91,13 +98,7 @@ public class PlayerCtrl : BaseCtrl
             JumpHandle();
         }
     }
-    void JumpHandle()
-    {
-        //向上
-        ChangeState(State.Jump);
-        _velocity.y = Mathf.Sqrt(2 * G * H);
-        animaCtrl.SetTrigger(AniHash.JumpTrigger);
-    }
+    
     #endregion 跳躍功能
 
     #region 攻擊功能
@@ -116,37 +117,6 @@ public class PlayerCtrl : BaseCtrl
             Combo = 1;
             AttackHandle();
         }
-    }
-
-    public void AttackHandle()
-    {
-        ChangeState(State.Attack);
-        //_velocity = IsGrounded ? Vector3.zero : Vector3.up * 0.2f;
-        animaCtrl.SetTrigger(AniHash.AttackTrigger);
-    }
-
-    public void StartAttack()
-    {
-        _inConboWindow = false;
-    }
-
-    public void EndAttack()
-    {
-        _inConboWindow = false;
-        if(state == State.Attack)
-        {
-            ChangeState(IsGrounded ? State.Idle : State.Jump);
-        }
-    }
-    
-    public void OpenComboWindow()
-    {
-        _inConboWindow = true;
-    }
-
-    public void OnAttack(Transform point)
-    {
-        Instantiate(_skillPrefabs[0], point.position, point.rotation);
     }
     #endregion 攻擊功能
 

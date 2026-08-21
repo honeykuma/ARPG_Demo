@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2929624713348305763}
   - component: {fileID: 7135641124331900126}
+  - component: {fileID: 4660178918396989801}
   m_Layer: 0
   m_Name: Monster(SkeletonA)
   m_TagString: Enemy
@@ -58,6 +59,21 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1.08, z: 0}
+--- !u!114 &4660178918396989801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2332275383452387847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b7b11a67ffad834c925226899f880c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyCtrl
+  _moveSpeed: 3
+  _jumpHeight: 3
+  _skillPrefabs: []
 --- !u!1001 &8879946985248252173
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -129,12 +145,33 @@ PrefabInstance:
     - target: {fileID: 5866666021909216657, guid: 8624151ff76b77c489cd541f6427435f, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: fb347b8c8955d8148971066a2a9cf23e, type: 2}
+      objectReference: {fileID: 9100000, guid: b8dd568b445f61a40a87b696111b306a, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8624151ff76b77c489cd541f6427435f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5684696508820686178}
   m_SourcePrefab: {fileID: 100100000, guid: 8624151ff76b77c489cd541f6427435f, type: 3}
+--- !u!1 &8645364743399857244 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 8624151ff76b77c489cd541f6427435f, type: 3}
+  m_PrefabInstance: {fileID: 8879946985248252173}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5684696508820686178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8645364743399857244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9845c10143f285449d1d5eb02047657, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AnimaCtrl
+  _eventPoints: []
 --- !u!4 &8985052622272104166 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8624151ff76b77c489cd541f6427435f, type: 3}

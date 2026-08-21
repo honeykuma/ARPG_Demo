@@ -40,7 +40,6 @@ public static class GameManager
     }
     #endregion 玩家相關資訊
 
-
     #region 攝影機相關資訊
     /// <summary>
     /// 當前運作中的攝影機

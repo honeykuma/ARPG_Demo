@@ -162,7 +162,7 @@ public abstract class BaseCtrl : MonoBehaviour
     /// <summary>
     /// 狀態刷新
     /// </summary>
-    protected void Update()
+    protected virtual void Update()
     {
         StateLogic();
         AnimaUpdate();
@@ -187,7 +187,7 @@ public abstract class BaseCtrl : MonoBehaviour
     /// <summary>
     /// 動態套用
     /// </summary>
-    void Movement()
+    protected void Movement()
     {
         Gravity();//重力
         charCtrl.Move(Velocity);
@@ -196,7 +196,7 @@ public abstract class BaseCtrl : MonoBehaviour
     /// <summary>
     /// 重力
     /// </summary>
-    void Gravity()
+    protected virtual void Gravity()
     {
         if (IsGrounded)
         {
@@ -212,10 +212,46 @@ public abstract class BaseCtrl : MonoBehaviour
     /// <summary>
     /// 轉向事件
     /// </summary>
-    void Rota()
+    protected void Rota()
     {   //轉向
         if (FacingVector != Vector3.zero)
             charCtrl.transform.rotation = Quaternion.LookRotation(FacingVector) * AngComp;
     }
     #endregion 物理控制
+
+    #region 基礎動作與戰鬥
+    protected void JumpHandle()
+    {
+        //向上
+        ChangeState(State.Jump);
+        _velocity.y = Mathf.Sqrt(2 * G * H);
+        animaCtrl.SetTrigger(AniHash.JumpTrigger);
+    }
+    protected void AttackHandle()
+    {
+        ChangeState(State.Attack);
+        //_velocity = IsGrounded ? Vector3.zero : Vector3.up * 0.2f;
+        animaCtrl.SetTrigger(AniHash.AttackTrigger);
+    }
+    #endregion 基礎動作與戰鬥
+
+    #region 動畫控制取用
+    public void StartAttack() => _inConboWindow = false;
+    public void OpenComboWindow() => _inConboWindow = true;
+
+    public void EndAttack()
+    {
+        _inConboWindow = false;
+        if (state == State.Attack)
+        {
+            ChangeState(IsGrounded ? State.Idle : State.Jump);
+        }
+    }
+
+    public void OnAttack(Transform point)
+    {
+        if (_skillPrefabs == null || _skillPrefabs.Length == 0) return;
+        Instantiate(_skillPrefabs[0], point.position, point.rotation);
+    }
+    #endregion 動畫控制取用
 }
