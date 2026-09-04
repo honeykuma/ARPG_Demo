@@ -17,6 +17,9 @@ public class EnemyCtrl : BaseCtrl
 
     private Vector3 _dirToTarget;
     private Vector3 _spawnPos;
+    [SerializeField]
+    private float _attackCD = 2f;
+    private float _attackTimer;
     #endregion AI參數
 
     #region 公用參數
@@ -67,7 +70,10 @@ public class EnemyCtrl : BaseCtrl
     /// 是否處於搜索範圍內
     /// </summary>
     public bool IsPatrolDone => Vector3.Distance(transform.position, _patrolPos) < 0.1f;
-
+    /// <summary>
+    /// 是否冷卻完成 : 可進行攻擊
+    /// </summary>
+    public bool CanAttack => _attackTimer <= 0;
     #endregion 公用參數
 
     #region 生命週期(決策)
@@ -80,13 +86,23 @@ public class EnemyCtrl : BaseCtrl
     // Update is called once per frame
     protected override void Update()
     {
+        AttackCoolDown();
         AIDecision();
         base.Update();
     }
-
+    /// <summary>
+    /// 攻擊冷卻
+    /// </summary>
+    void AttackCoolDown()
+    {
+        if (!CanAttack) _attackTimer -= Time.deltaTime;
+    }
+    /// <summary>
+    /// AI決策邏輯
+    /// </summary>
     void AIDecision()
     {
-        if (state == State.Attack || state == State.Dash) return;
+        if (IsDead || state == State.Hit || state == State.Attack || state == State.Dash) return;
         
         if(Target == null) 
         {//無目標時保持靜止狀態
@@ -106,7 +122,6 @@ public class EnemyCtrl : BaseCtrl
         }
         else Patrol();
     }
-
     /// <summary>
     /// 目標不在搜索範圍:巡邏
     /// </summary>
@@ -125,10 +140,19 @@ public class EnemyCtrl : BaseCtrl
     }
     #endregion 生命週期(決策)
 
+    #region 戰鬥行為
     private void Attack()
     {
-        charCtrl.transform.rotation = Quaternion.LookRotation(DirToTarget);
-        Combo++;
-        AttackHandle();
+        if (CanAttack) 
+        {//冷卻完成發動攻擊
+            Combo++;
+            _attackTimer = _attackCD;
+            AttackHandle();
+        }
+        else
+        {//盯著目標對象
+            charCtrl.transform.rotation = Quaternion.LookRotation(DirToTarget);
+        }
     }
+    #endregion 戰鬥行為
 }

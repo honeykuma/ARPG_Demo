@@ -40,11 +40,15 @@ public class SkillCtrl : MonoBehaviour
             {
                 case Target.Enemy: return "Enemy";
                 case Target.Player: return "Player";
-
             }
             return string.Empty;
         }
     }
+    /// <summary>
+    /// 基本傷害
+    /// </summary>
+    [SerializeField]
+    private float _damage = 10f;
     /// <summary>
     /// 撞擊效果
     /// </summary>
@@ -109,22 +113,29 @@ public class SkillCtrl : MonoBehaviour
     {
         Fly();
     }
+
     /// <summary>
     /// 物件上必須要有碰撞器，且勾上Trigger
     /// </summary>
     /// <param name="other"></param>
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == Tag)
+        if (other.CompareTag(Tag))
         {
+            BaseCtrl actor = other.GetComponent<BaseCtrl>();
+            if(!actor) return;
+
+            actor.TakeDamage(_damage);
+
             SecondHit(_UseTargetPos? other.transform : transform);
+
             if (_hitEffectObj) _hitEffectObj.SetActive(true);
             if (HitShock) impulseSource.GenerateImpulseWithForce(_hitPower);
         }
     }
     #endregion 生命週期
 
-    #region 運行手段    
+    #region 運行手段
     /// <summary>
     /// 飛行功能
     /// </summary>
@@ -150,7 +161,7 @@ public class SkillCtrl : MonoBehaviour
     /// <param name="hitTarget">觸發目標</param>
     /// <returns></returns>
     private async Task SecondHitDelay(Transform hitTarget)
-    {       
+    {
         await Task.Delay(TimeSpan.FromSeconds(_secondHitDelay));
          Instantiate(_secondHitObj, hitTarget.position, Quaternion.identity);
 }
