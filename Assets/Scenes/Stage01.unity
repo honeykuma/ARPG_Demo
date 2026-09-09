@@ -272,12 +272,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 285237139}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.42261827, y: 0, z: 0, w: 0.9063079}
-  m_LocalPosition: {x: 40, y: 0, z: 80}
+  m_LocalRotation: {x: 0.42261827, y: -0, z: -0, w: 0.9063079}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1548467406}
   m_LocalEulerAnglesHint: {x: 50, y: 0, z: 0}
 --- !u!4 &358931088 stripped
 Transform:
@@ -595,8 +595,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineCamera
   Priority:
-    Enabled: 0
-    m_Value: 0
+    Enabled: 1
+    m_Value: 10
   OutputChannel: 1
   StandbyUpdate: 2
   m_StreamingVersion: 20241001
@@ -726,6 +726,7 @@ GameObject:
   - component: {fileID: 1298637345}
   - component: {fileID: 1298637348}
   - component: {fileID: 1298637349}
+  - component: {fileID: 1298637350}
   m_Layer: 0
   m_Name: '[Camera]Main'
   m_TagString: Untagged
@@ -883,6 +884,18 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   CustomBlends: {fileID: 0}
+--- !u!114 &1298637350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298637344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9e94e9fc582a0847877167b42667b3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CammerManger
 --- !u!1 &1355176110
 GameObject:
   m_ObjectHideFlags: 0
@@ -967,6 +980,9 @@ MonoBehaviour:
   distance: 2
   angX: 20
   angY: 315
+  xSpeed: 200
+  ySpeed: 120
+  zoomSpeed: 3
 --- !u!1 &1548467403
 GameObject:
   m_ObjectHideFlags: 0
@@ -978,8 +994,9 @@ GameObject:
   - component: {fileID: 1548467406}
   - component: {fileID: 1548467407}
   - component: {fileID: 1548467404}
+  - component: {fileID: 1548467408}
   m_Layer: 0
-  m_Name: BossVolume
+  m_Name: BossRoom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -998,8 +1015,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.Volume
   m_IsGlobal: 0
-  priority: 999
-  blendDistance: 10
+  priority: 99
+  blendDistance: 13
   weight: 1
   sharedProfile: {fileID: 11400000, guid: 2a470f703f08ed849a065bc6bc77f3bd, type: 2}
 --- !u!4 &1548467406
@@ -1010,11 +1027,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1548467403}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 40, y: 0, z: 80}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1945692964}
+  - {fileID: 285237140}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1548467407
@@ -1032,12 +1051,25 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 60, y: 40, z: 60}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1548467408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1548467403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8ab18940f7e6814ea9de51e7cbb90bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RoomCtrl
+  cinemachineCamera: {fileID: 1945692963}
 --- !u!1 &1945692959
 GameObject:
   m_ObjectHideFlags: 0
@@ -1165,12 +1197,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1945692959}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.42261827, y: 0, z: 0, w: 0.9063079}
-  m_LocalPosition: {x: 40, y: 11.490668, z: 70.358185}
+  m_LocalRotation: {x: 0.42261827, y: -0, z: -0, w: 0.9063079}
+  m_LocalPosition: {x: 0, y: 11.490668, z: -9.641815}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1548467406}
   m_LocalEulerAnglesHint: {x: 50, y: 0.6, z: 0}
 --- !u!1 &1979952358
 GameObject:
@@ -1393,8 +1425,6 @@ SceneRoots:
   - {fileID: 4267614165416399209}
   - {fileID: 1979952361}
   - {fileID: 911500896}
-  - {fileID: 1945692964}
   - {fileID: 1388545731}
   - {fileID: 1355176111}
-  - {fileID: 285237140}
   - {fileID: 1548467406}
