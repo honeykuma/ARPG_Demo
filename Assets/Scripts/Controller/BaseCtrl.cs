@@ -104,6 +104,7 @@ public abstract class BaseCtrl : MonoBehaviour
     /// 當前的生命值
     /// </summary>
     protected float _HP;
+    protected event Action<float, float> OnHPChanged;
     // ======== 屬性公用參數 ========
     public float CurrentHP => _HP;
     public float MaxHP => _maxHP;
@@ -266,6 +267,11 @@ public abstract class BaseCtrl : MonoBehaviour
     #endregion 基礎動作與戰鬥
 
     #region 受擊與傷害邏輯
+    protected virtual void SetOnHPChangeEvent(Action<float,float> action) 
+    {
+        OnHPChanged = action;
+        OnHPChanged?.Invoke(CurrentHP, MaxHP);
+    }
     /// <summary>
     /// 共通傷害執行接口
     /// </summary>
@@ -274,7 +280,12 @@ public abstract class BaseCtrl : MonoBehaviour
     {
         if (IsDead) return;//避免鞭屍
         _HP -= damage;
-        if (damage > 0) HitHandle();
+        if (damage > 0)
+        {
+            HitHandle();
+            //有UI事件訂閱：執行數值傳遞
+            OnHPChanged?.Invoke(CurrentHP,MaxHP);
+        }
         if (_HP <= 0) Die();
     }
     /// <summary>
@@ -297,6 +308,11 @@ public abstract class BaseCtrl : MonoBehaviour
         animaCtrl.SetTrigger(AniHash.DeadTrigger);
     }
 
+    public void EndHit()
+    {
+        if (state == State.Hit)
+            ChangeState(IsGrounded? State.Idle : State.Jump);
+    }
     #endregion 受擊與傷害邏輯
 
     #region 動畫控制取用
@@ -315,7 +331,7 @@ public abstract class BaseCtrl : MonoBehaviour
     public void OnAttack(Transform point)
     {
         if (_skillPrefabs == null || _skillPrefabs.Length == 0) return;
-        Instantiate(_skillPrefabs[0], point.position, point.rotation);
+        Instantiate(_skillPrefabs[0], point.position, transform.rotation);
     }
     #endregion 動畫控制取用
 }

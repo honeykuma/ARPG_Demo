@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -22,7 +23,7 @@ public static class GameManager
     /// </summary>
     public static Vector3 playerGPS
     {
-        get 
+        get
         {
             return playerCtrl != null
                 ? playerCtrl.transform.position
@@ -38,36 +39,56 @@ public static class GameManager
     {
         playerCtrl = ctrl;
     }
+
+    /// <summary>
+    /// 連結HPBarUI的動作
+    /// </summary>
+    public static Action<float, float> UpdatePlayerHPBar { get; private set; }
+
+    public static void SetPlayerHPBar(Action<float, float> action)
+    {
+        UpdatePlayerHPBar += action;
+        //玩家已存在的話立刻刷新一次
+        if (playerCtrl) UpdatePlayerHPBar(playerCtrl.CurrentHP,playerCtrl.MaxHP);
+    }
+
+    public static void RemovePlayerHPBar(Action<float, float> action)
+    {
+        UpdatePlayerHPBar -= action;
+    }
+
+    public static void ClearPlayerHPBox()
+    {
+        UpdatePlayerHPBar = null;
+    }
     #endregion 玩家相關資訊
 
-    #region 攝影機相關資訊
+    #region 主攝影機相關
     /// <summary>
     /// 當前運作中的攝影機
     /// </summary>
-    public static CameraCtrl cameraCtrl { get; private set; }
-
+    public static CameraManger mainCamera { get; private set; }
     /// <summary>
-    /// 當前運作中攝影機的旋轉參數
+    /// 攝影機的旋轉參數
     /// </summary>
-    public static Vector3 cameraRota
+    public static Vector3 mainCameraRota
     {
         get
         {
-            return cameraCtrl != null
-                ? cameraCtrl.transform.rotation.eulerAngles
+            return mainCamera != null
+                ? mainCamera.transform.rotation.eulerAngles
                 : Vector3.zero;
         }
     }
-
     /// <summary>
     /// 設定(初始化)當前操作鏡頭
     /// </summary>
-    /// <param name="ctrl">鏡頭控制器</param>
-    public static void SetCurrentCamera(CameraCtrl ctrl)
+    /// <param name="main">鏡頭控制器</param>
+    public static void SetMainCamera(CameraManger main)
     {
-        cameraCtrl = ctrl;
+        mainCamera = main;
     }
-    #endregion 攝影機相關資訊
+    #endregion 主攝影機相關    
 
     public static void LoadScene(string sceneName)
     {
