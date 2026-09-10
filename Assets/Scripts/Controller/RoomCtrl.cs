@@ -14,7 +14,15 @@ public class RoomCtrl : MonoBehaviour
     {
         if (other.CompareTag(Tag))
         {
-            cinemachineCamera.PreviousStateIsValid = true;
+            cinemachineCamera.Priority.Value = 100;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag(Tag))
+        {
+            cinemachineCamera.Priority.Value = 0;
         }
     }
 

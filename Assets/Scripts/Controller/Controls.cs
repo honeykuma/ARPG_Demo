@@ -136,6 +136,33 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""2cbc3bcf-c76a-48c4-b30c-f7bf5d5e2e6c"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""RotateToggle"",
+                    ""type"": ""Button"",
+                    ""id"": ""6e09685a-6feb-469a-a943-9e5ef3428563"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Zoom"",
+                    ""type"": ""Value"",
+                    ""id"": ""bc4c3391-2c1b-499c-83e1-2b997d89e77c"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -292,6 +319,39 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f17a8745-c8f0-45ef-9782-d6e1e9427ae3"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c2427a04-ff79-4a8a-817e-f4a62f8e3cf7"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateToggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e57f55c1-156c-46c3-a233-47326b3a82ed"",
+                    ""path"": ""<Mouse>/scroll"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -333,6 +393,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Play_Menu = m_Play.FindAction("Menu", throwIfNotFound: true);
         m_Play_Attack = m_Play.FindAction("Attack", throwIfNotFound: true);
         m_Play_Dash = m_Play.FindAction("Dash", throwIfNotFound: true);
+        m_Play_Look = m_Play.FindAction("Look", throwIfNotFound: true);
+        m_Play_RotateToggle = m_Play.FindAction("RotateToggle", throwIfNotFound: true);
+        m_Play_Zoom = m_Play.FindAction("Zoom", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Newaction = m_UI.FindAction("New action", throwIfNotFound: true);
@@ -422,6 +485,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Play_Menu;
     private readonly InputAction m_Play_Attack;
     private readonly InputAction m_Play_Dash;
+    private readonly InputAction m_Play_Look;
+    private readonly InputAction m_Play_RotateToggle;
+    private readonly InputAction m_Play_Zoom;
     /// <summary>
     /// Provides access to input actions defined in input action map "Play".
     /// </summary>
@@ -453,6 +519,18 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Play/Dash".
         /// </summary>
         public InputAction @Dash => m_Wrapper.m_Play_Dash;
+        /// <summary>
+        /// Provides access to the underlying input action "Play/Look".
+        /// </summary>
+        public InputAction @Look => m_Wrapper.m_Play_Look;
+        /// <summary>
+        /// Provides access to the underlying input action "Play/RotateToggle".
+        /// </summary>
+        public InputAction @RotateToggle => m_Wrapper.m_Play_RotateToggle;
+        /// <summary>
+        /// Provides access to the underlying input action "Play/Zoom".
+        /// </summary>
+        public InputAction @Zoom => m_Wrapper.m_Play_Zoom;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -494,6 +572,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
+            @Look.started += instance.OnLook;
+            @Look.performed += instance.OnLook;
+            @Look.canceled += instance.OnLook;
+            @RotateToggle.started += instance.OnRotateToggle;
+            @RotateToggle.performed += instance.OnRotateToggle;
+            @RotateToggle.canceled += instance.OnRotateToggle;
+            @Zoom.started += instance.OnZoom;
+            @Zoom.performed += instance.OnZoom;
+            @Zoom.canceled += instance.OnZoom;
         }
 
         /// <summary>
@@ -520,6 +607,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
+            @Look.started -= instance.OnLook;
+            @Look.performed -= instance.OnLook;
+            @Look.canceled -= instance.OnLook;
+            @RotateToggle.started -= instance.OnRotateToggle;
+            @RotateToggle.performed -= instance.OnRotateToggle;
+            @RotateToggle.canceled -= instance.OnRotateToggle;
+            @Zoom.started -= instance.OnZoom;
+            @Zoom.performed -= instance.OnZoom;
+            @Zoom.canceled -= instance.OnZoom;
         }
 
         /// <summary>
@@ -691,6 +787,27 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnDash(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Look" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnLook(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "RotateToggle" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotateToggle(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Zoom" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnZoom(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
