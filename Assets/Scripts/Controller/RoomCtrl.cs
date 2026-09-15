@@ -1,11 +1,16 @@
 ﻿using UnityEngine;
 using Unity.Cinemachine;
+using UnityEngine.Playables;
 
 public class RoomCtrl : MonoBehaviour
 {
     #region 基礎元件
     [SerializeField]
     private CinemachineCamera cinemachineCamera;
+    [SerializeField]
+    private PlayableDirector director;
+    [SerializeField]
+    private Collider doorBlock;
     #endregion 基礎元件
 
     private const string Tag = "Player";
@@ -14,6 +19,8 @@ public class RoomCtrl : MonoBehaviour
     {
         if (other.CompareTag(Tag))
         {
+            director.Play();
+            doorBlock.isTrigger = false;
             cinemachineCamera.Priority.Value = 100;
         }
     }

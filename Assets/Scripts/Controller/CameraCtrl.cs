@@ -29,9 +29,12 @@ public class CameraCtrl : MonoBehaviour
     private InputActionReference zoomAction;
 
     [Header("滑鼠控制靈敏度")]
-    [SerializeField] private float xSpeed = 0.1f; //新版滑鼠Delta數值較大，速度建議調小
-    [SerializeField] private float ySpeed = 0.1f;
-    [SerializeField] private float zoomSpeed = 0.01f;
+    [SerializeField] 
+    private float xSpeed = 0.1f; //新版滑鼠Delta數值較大，速度建議調小
+    [SerializeField] 
+    private float ySpeed = 0.1f;
+    [SerializeField] 
+    private float zoomSpeed = 0.01f;
     // ───
     #endregion 鏡頭設定
 
