@@ -105,8 +105,8 @@ public static class GameManager
     public static void SetCurrentBoss(BossCtrl ctrl)
     {
         bossCtrl = ctrl;
-        bossCtrl.onHPChanged += UpdateBossHPBar;
-        UpdateBossHPBar?.Invoke(bossCtrl.CurrentHP,bossCtrl.MaxHP);
+        bossCtrl.OnHPChanged += UpdateBossHPBar;
+        UpdateBossHPBar?.Invoke(bossCtrl.CurrentHP, bossCtrl.MaxHP);
     }
 
     public static void SetBossHPBar(Action<float, float> action)

@@ -104,10 +104,12 @@ public abstract class BaseCtrl : MonoBehaviour
     /// 當前的生命值
     /// </summary>
     protected float _HP;
-    protected event Action<float, float> OnHPChanged;
+    public event Action<float, float> OnHPChanged;
     // ======== 屬性公用參數 ========
     public float CurrentHP => _HP;
     public float MaxHP => _maxHP;
+
+    public float PercentHP => _HP / _maxHP;
     public bool IsDead => state == State.Dead;
     #endregion 角色屬性參數
 
