@@ -798,13 +798,17 @@ MonoBehaviour:
   _jumpHeight: 3
   _skillPrefabs: []
   _maxHP: 1000
-  _patrolRange: 3
-  _chaseRange: 10
+  _patrolRange: 0
+  _chaseRange: 30
   _attackRange: 2
   _attackCD: 2
   _p2threshold: 0.7
   _p3threshold: 0.3
   _ptDuration: 3
+  _skills:
+  - {fileID: 11400000, guid: add615b376eb32046bbfebcefb4cf685, type: 2}
+  - {fileID: 11400000, guid: add615b376eb32046bbfebcefb4cf685, type: 2}
+  - {fileID: 11400000, guid: add615b376eb32046bbfebcefb4cf685, type: 2}
 --- !u!1001 &420331613
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2920,7 +2924,7 @@ MonoBehaviour:
   zoomAction: {fileID: -2135602135618768760, guid: fb238608dc3b25548a42279193c9efd1, type: 3}
   xSpeed: 0.1
   ySpeed: 0.1
-  zoomSpeed: 0.01
+  zoomSpeed: 0.05
 --- !u!1 &1548467403
 GameObject:
   m_ObjectHideFlags: 0

@@ -1925,6 +1925,7 @@ GameObject:
   - component: {fileID: 2126148899}
   - component: {fileID: 2126148898}
   - component: {fileID: 2126148897}
+  - component: {fileID: 2126148900}
   m_Layer: 5
   m_Name: BossInfoPanel
   m_TagString: Untagged
@@ -1964,6 +1965,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaf9201dff41cb94396fc2d8495a95bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIBossInfoCtrl
+  openOnAwake: 0
   _nameText: {fileID: 2072560821}
   _hpBarImg: {fileID: 762460661}
   _hpBarText: {fileID: 1200209938}
@@ -2005,6 +2007,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2126148895}
   m_CullTransparentMesh: 1
+--- !u!225 &2126148900
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2126148895}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2141516892
 GameObject:
   m_ObjectHideFlags: 0

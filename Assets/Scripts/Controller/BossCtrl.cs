@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class BossCtrl : EnemyCtrl
 {
@@ -9,6 +11,19 @@ public class BossCtrl : EnemyCtrl
     /// 狀態階段(行為切換基準)
     /// </summary>
     public enum Phase { P0, P1, P2, P3 }
+    /// <summary>
+    /// 階段性組合標籤(Flags複選標籤)
+    /// </summary>
+    [Flags]
+    public enum PhaseFlag
+    {
+        None = 0,
+        P1 = 1 << 0,//1
+        P2 = 1 << 1,//10
+        P3 = 1 << 2,//100
+        All = P1 | P2 | P3//111
+    }
+
     /// <summary>
     /// 當前的狀態階段(用HP百分比計算)
     /// </summary>
@@ -51,6 +66,15 @@ public class BossCtrl : EnemyCtrl
     private bool _isInvincible = false;
     #endregion 專用屬性參數
 
+    #region 招式資料庫
+    [SerializeField]
+    private BossSkillDB[] _skills;
+    /// <summary>
+    /// 施放中的招式索引號碼
+    /// </summary>
+    private int _castSkillIndex = -1;
+    #endregion 招式資料庫
+
     #region 訂閱事件
     /// <summary>
     /// 階段變換觸發事件
@@ -63,25 +87,101 @@ public class BossCtrl : EnemyCtrl
     #endregion 訂閱事件
 
     #region 生命週期
-    protected override void Awake()
-    {
-        base.Awake();//登場回滿血(初始化)
-        GameManager.SetCurrentBoss(this);
-    }
 
     protected override void Update()
     {
         if (_lastPhase != Phase.P0) base.Update();
-
+        //Boss特技
     }
 
     public async Task Ready(float time)
     {
         await Task.Delay(TimeSpan.FromSeconds(time));
-        _lastPhase = Phase.P1;
-        animaCtrl.SetLayerWeight(1, 0f);
+        _lastPhase = Phase.P1;//進入第一階段
+        animaCtrl.SetLayerWeight(1, 0f);//準備動畫(表演層)關閉
+        GameManager.SetCurrentBoss(this);//正式初始化
     }
     #endregion 生命週期
+
+    #region 攻擊行為(招式抽取)
+    private void Attack()
+    {//不能攻擊或正在切換狀態：不執行Attack
+        if(!CanAttack || _inPhaseTrans ) return;
+        castingSkill = _skills[ChooseSkill()];
+        ChangeState(State.Attack);
+        animaCtrl.SetTrigger(castingSkill.triggerHash);//開始播放攻擊動畫(前搖)
+    }
+
+    /// <summary>
+    /// 抽取技能時的權重分母
+    /// </summary>
+    int totalWeight = 0;
+    /// <summary>
+    /// 符合施放條件的技能清單
+    /// </summary>
+    private List<int> skillList = new List<int>();
+    private BossSkillDB castingSkill;//正在施放的技能
+    /// <summary>
+    /// 抽選技能
+    /// </summary>
+    /// <returns>技能序號</returns>
+    private int ChooseSkill()
+    {
+        if (_skills.Length == 0) return -1;
+
+        totalWeight = 0;//權重分母
+        skillList.Clear();//清空技能備選清單(初始化)
+        int skillIndex = -1;//起點
+
+        foreach (BossSkillDB skill in _skills)
+        {//遍歷SkillDB
+            skillIndex++;//流水號
+            if (skill == null || skill.weight <= 0) continue;//沒有可施放技能：該輪跳過
+            //冷卻時間未到 if (cooldown) continue;//冷卻時間未到：該輪跳過
+            if (DistanceToTarget < skill.minRange || DistanceToTarget > skill.maxRange) continue;//目標不在施放範圍內：該輪跳過
+            if (!IsAllowedPhases(skill.allowedPhases)) continue;//不在施放階段內：該輪跳過
+            totalWeight += skill.weight;//計算權重分母
+            skillList.Add(skillIndex);
+        }
+
+        int roll = Random.Range(0, totalWeight);
+        foreach (int index in skillList)
+        {
+            if (roll < _skills[index].weight) return index;
+            else roll -= _skills[index].weight;
+        }
+        return -1;
+    }
+    /// <summary>
+    /// 階段檢定
+    /// </summary>
+    /// <param name="flag">階段旗標</param>
+    /// <returns>是否包含</returns>
+    private bool IsAllowedPhases(PhaseFlag flag)
+    {
+        
+        return _currentPhase switch
+        {
+            Phase.P1 => (flag & PhaseFlag.P1) != 0,
+            Phase.P2 => (flag & PhaseFlag.P2) != 0,
+            Phase.P3 => (flag & PhaseFlag.P3) != 0,
+            _ => false,
+        };
+        /*
+        switch (_currentPhase)
+        {
+            case Phase.P1: return (flag & PhaseFlag.P1) != 0;
+            case Phase.P2: return (flag & PhaseFlag.P1) != 0;
+            case Phase.P3: return (flag & PhaseFlag.P1) != 0;
+            default: return false;
+        }*/
+    }
+
+    public override void OnAttack(Transform point)
+    {
+        
+    }
+    #endregion 攻擊行為(招式抽取)
 
     #region 傷害階段切換
     public override void TakeDamage(float damage)
